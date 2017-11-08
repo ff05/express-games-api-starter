@@ -9,7 +9,7 @@ const playerSchema = new Schema({
 
 const gameSchema = new Schema({
   board: [Number],
-  players: [{ type: Schema.Types.ObjectId, ref: 'users' }],
+  players: [{userId: { type: Schema.Types.ObjectId, ref: 'users' }}],
   turn: { type: Number, default: 0 }, // player index
   started: { type: Boolean, default: false },
   winnerId: { type: Schema.Types.ObjectId, ref: 'users' },

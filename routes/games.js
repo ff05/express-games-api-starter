@@ -30,7 +30,9 @@ module.exports = io => {
     .post('/games', authenticate, (req, res, next) => {
       const newGame = {
         userId: req.account._id,
-        players: [req.account._id]
+        players: [{
+          userId: req.account._id
+        }]
       }
 
       Game.create(newGame)
