@@ -62,11 +62,16 @@ module.exports = io => {
     })
     .patch('/games/:id', authenticate, (req, res, next) => {
       const id = req.params.id
-      const patchForGame = req.body
+      const move = req.body.move
+      const player_id = req.body.player_id
 
       Game.findById(id)
         .then((game) => {
           if (!game) { return next() }
+
+          const updateGame = () => {
+            game.board[patchForGame] = game.players[0]
+          }
 
           const updatedGame = { ...game, ...patchForGame }
 
