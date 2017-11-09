@@ -3,6 +3,7 @@ const router = require('express').Router()
 const passport = require('../config/auth')
 const { Game } = require('../models')
 const utils = require('../lib/utils')
+const calculateWinner = require('../logics/calculateWinner')
 
 const authenticate = passport.authorize('jwt', { session: false })
 
@@ -64,16 +65,24 @@ module.exports = io => {
       const id = req.params.id
       const move = req.body.move
       const player_id = req.body.player_id
+      const patchForGame = req.body.move
 
       Game.findById(id)
         .then((game) => {
+
           if (!game) { return next() }
 
-          const updateGame = () => {
-            game.board[patchForGame] = game.players[0]
+          const moveSymbol = game.turn % 2 == 0 ? "X" : "O"
+          game.board[patchForGame] = moveSymbol
+          game.turn = game.turn++
+
+          if (calculateWinner(game.board) === "X") {
+            game.winnerId = player_id
           }
 
-          const updatedGame = { ...game, ...patchForGame }
+          const updatedGame = {
+            winnerId: game.winnerId, turn: game.turn, board: game.board
+          }
 
           Game.findByIdAndUpdate(id, { $set: updatedGame }, { new: true })
             .then((game) => {
