@@ -65,7 +65,6 @@ module.exports = io => {
       const id = req.params.id
       const move = req.body.move
       const player_id = req.body.player_id
-      const patchForGame = req.body.move
 
       Game.findById(id)
         .then((game) => {
@@ -73,16 +72,21 @@ module.exports = io => {
           if (!game) { return next() }
 
           const moveSymbol = game.turn % 2 == 0 ? "X" : "O"
-          game.board[patchForGame] = moveSymbol
-          game.turn = game.turn++
+          game.board[move] = moveSymbol
+
+          if (game.turn % 2 == 0) {
+            game.board[move] = "X"
+            game.turn++
+          } else {
+            game.board[move] = "O"
+            game.turn--
+          }
 
           if (calculateWinner(game.board) === "X") {
             game.winnerId = player_id
           }
 
-          const updatedGame = {
-            winnerId: game.winnerId, turn: game.turn, board: game.board
-          }
+          const updatedGame = { turn: game.turn, board: game.board }
 
           Game.findByIdAndUpdate(id, { $set: updatedGame }, { new: true })
             .then((game) => {
