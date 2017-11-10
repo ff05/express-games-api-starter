@@ -3,7 +3,7 @@ const mongoose = require('../config/database')
 const { Schema } = mongoose
 
 const gameSchema = new Schema({
-  board: [Number],
+  board: [String],
   players: [{userId: { type: Schema.Types.ObjectId, ref: 'users' }}],
   turn: { type: Number, default: 0 }, // player index
   started: { type: Boolean, default: false },
