@@ -34,7 +34,8 @@ module.exports = io => {
         players: [{
           userId: req.account._id
         }],
-        board: Array(9).fill(0)
+        board: Array(9).fill(0),
+        winnerId: null
       }
 
       Game.create(newGame)
