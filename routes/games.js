@@ -83,10 +83,12 @@ module.exports = io => {
           }
 
           if (calculateWinner(game.board) === "X") {
-            game.winnerId = player_id
+            game.winnerId = game.players[0].userId
+          } else if (calculateWinner(game.board) === "O") {
+            game.winnerId = game.players[1].userId
           }
 
-          const updatedGame = { turn: game.turn, board: game.board }
+          const updatedGame = { winnerId: game.winnerId, turn: game.turn, board: game.board }
 
           Game.findByIdAndUpdate(id, { $set: updatedGame }, { new: true })
             .then((game) => {
