@@ -1,6 +1,6 @@
 # Express Games API
 
-RESTful Express API for Games on top of MongoDB.
+RESTful Express API for [Tic Tac Toe](https://github.com/ff05/react-game-starter) on top of MongoDB.
 
 ## Authentication
 
@@ -42,4 +42,19 @@ _**Note**: See `db/seed.js` for an example._
 | `DELETE` | `/games/:id` | Destroy a single game by it's `id`* |
 | | | _* Needs authentication_ |
 
-_**Note**: Run `yarn run seed` to seed some initial games._
+
+## Running Locally
+
+Make sure you have:
+ * [MongoDB](https://docs.mongodb.com/), [Yarn](https://yarnpkg.com/en/) and
+ * [NodeJS](https://nodejs.org/en/) installed.
+
+ * [the frontend](https://github.com/ff05/evaluation-tool) up and running
+
+```bash
+sudo service mongod start
+git clone git@github.com:ff05/express-games-api-starter.git
+cd express-games-api-starter
+yarn install
+yarn start
+```
